@@ -1,7 +1,7 @@
 import random
-
 import requests
 from data_requests.ihelp_request import *
+from data_requests.Schemas import *
 
 url = "http://147.102.230.182:30007/ihelp/"
 
@@ -34,8 +34,8 @@ def test_datacapture_get_returns_200():
 
 def test_datacapture_get_returns_correct_body():
     response = requests.get(url + "datacapture")
-    body = json.dumps(response.content.decode("utf-8"))
-    assert body in json.dumps('[]')
+    body = response.content.decode("utf-8")
+    assert check(datacapture_list_schema(), body)
 
 
 def test_datacapture_post_returns_200():
@@ -54,8 +54,8 @@ def test_datacapture_id_returns_200():
 def test_datacapture_id_returns_correct_body():
     my_id = random.randint(0, 100)
     response = requests.get(url + "datacapture/" + str(my_id))
-    body = json.dumps(response.content.decode("utf-8"))
-    assert body in t_datacapture_request()
+    body = response.content.decode("utf-8")
+    assert check(datacapture_schema(), body)
 
 
 def test_datacapture_combo_test_returns_200():
@@ -78,8 +78,8 @@ def test_datacapture_combo_returns_200():
 
 def test_datacapture_combo_returns_correct_body():
     response = requests.get(url + "datacapture/combo")
-    body = json.dumps(response.content.decode("utf-8"))
-    assert body in json.dumps('[]')
+    body = response.content.decode("utf-8")
+    assert check(datacapture_combo_list_schema(), body)
 
 
 def test_datacapture_combo_post_returns_200():
@@ -98,8 +98,8 @@ def test_datacapture_combo_id_returns_200():
 def test_datacapture_combo_id_returns_correct_body():
     my_id = random.randint(0, 100)
     response = requests.get(url + "datacapture/combo" + str(my_id))
-    body = json.dumps(response.content.decode("utf-8"))
-    assert body in t_datacapture_combo_request()
+    body = response.content.decode("utf-8")
+    assert check(datacapture_combo_schema(), body)
 
 
 def test_datacapture_combo_schedule_test_returns_200():
@@ -122,5 +122,5 @@ def test_datacapture_combo_schedule_returns_200():
 
 def test_datacapture_combo_schedule_returns_correct_body():
     response = requests.get(url + "datacapture/combo/schedule")
-    body = json.dumps(response.content.decode("utf-8"))
-    assert body in json.dumps('[]')
+    body = response.content.decode("utf-8")
+    assert check(datacapture_combo_schedule_list_schema(), body)
