@@ -164,3 +164,31 @@ def datacapture_combo_schedule_list_schema():
             }
         ]
     )
+
+
+def metainfo_primarykey_columns_schema():
+    return Schema(
+        [
+            {
+                "name": And(Use(str)),
+                "type": And(Use(str))
+            }
+        ]
+    )
+
+
+def metainfo_indexes_schema():
+    return Schema(
+        [
+            {
+                "name": And(Use(str)),
+                "unique": And(Use(bool)),
+                "fields": [
+                    {
+                        "name": And(Use(str)),
+                        "type": And(Use(str))
+                    }
+                ]
+            }
+        ]
+    )
