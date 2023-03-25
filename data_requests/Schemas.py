@@ -192,3 +192,17 @@ def metainfo_indexes_schema():
             }
         ]
     )
+
+
+def process_schema():
+    return Schema(
+        [
+            {
+                "row": [
+                    {
+                        "name": And(Use(str))
+                    }
+                ]
+            }
+        ]
+    )

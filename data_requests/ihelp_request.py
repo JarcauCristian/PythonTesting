@@ -46,3 +46,13 @@ def datacapture_combo_request():
         ]
     }
     return json.dumps(request_body)
+
+
+def process_post_request(i_help_id: int, gender: str, date: str, pilot_id: str, healthentia_id: str):
+    return {
+        "ihelpID": i_help_id,
+        "gender": gender,
+        "date": date,
+        "pilotID": pilot_id,
+        "healthentiaID": healthentia_id
+    }
