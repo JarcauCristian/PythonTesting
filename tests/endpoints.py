@@ -5,7 +5,7 @@ from data_requests.Schemas import *
 import logging
 
 url = "http://147.102.230.182:30007/ihelp/"
-logging.basicConfig(filename='endpoints30007.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='./endpoints30007.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s', encoding='utf-8', level=logging.ERROR)
 
 
 def t_datacapture_request():

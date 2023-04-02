@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="18" time="545.143" timestamp="2023-04-02T09:14:40.262079" hostname="ScR4PP-PC"><testcase classname="endpoints30005" name="test_metainfo_returns_200" time="5.315" /><testcase classname="endpoints30005" name="test_metainfo_returns_correct_body" time="5.177"><failure message="assert '[&quot;HEALTHENTIA_PHYSIOLOGICAL&quot;,&quot;HEALTHENTIA_EXERCISES&quot;,&quot;HEALTHENTIA_ANSWERS&quot;,&quot;HEALTHENTIA_SUBJECTS&quot;,&quot;FPG_BLOOD&quot;,&quot;FPG_BASE&quot;,&quot;PATIENT&quot;,&quot;IHELP_PERSON&quot;,&quot;CONDITION&quot;,&quot;MEDICATION&quot;,&quot;ENCOUNTER&quot;]' == '[&quot;ENCOUNTER&quot;,&quot;MEDICATION&quot;,&quot;CONDITION&quot;,&quot;IHELP_PERSON&quot;,&quot;PATIENT&quot;,&quot;FPG_BASE&quot;,&quot;FPG_BLOOD&quot;,&quot;HEALTHENTIA_SUBJECTS&quot;,&quot;HEALTHENTIA_ANSWERS&quot;,&quot;HEALTHENTIA_EXERCISES&quot;,&quot;HEALTHENTIA_PHYSIOLOGICAL&quot;]'&#10;  - [&quot;ENCOUNTER&quot;,&quot;MEDICATION&quot;,&quot;CONDITION&quot;,&quot;IHELP_PERSON&quot;,&quot;PATIENT&quot;,&quot;FPG_BASE&quot;,&quot;FPG_BLOOD&quot;,&quot;HEALTHENTIA_SUBJECTS&quot;,&quot;HEALTHENTIA_ANSWERS&quot;,&quot;HEALTHENTIA_EXERCISES&quot;,&quot;HEALTHENTIA_PHYSIOLOGICAL&quot;]&#10;  + [&quot;HEALTHENTIA_PHYSIOLOGICAL&quot;,&quot;HEALTHENTIA_EXERCISES&quot;,&quot;HEALTHENTIA_ANSWERS&quot;,&quot;HEALTHENTIA_SUBJECTS&quot;,&quot;FPG_BLOOD&quot;,&quot;FPG_BASE&quot;,&quot;PATIENT&quot;,&quot;IHELP_PERSON&quot;,&quot;CONDITION&quot;,&quot;MEDICATION&quot;,&quot;ENCOUNTER&quot;]">def test_metainfo_returns_correct_body():
+        response = requests.get(url + "/metainfo")
+        body = ""
+        if response.status_code == 200:
+            body = response.content.decode("utf-8")
+        if body != '["ENCOUNTER","MEDICATION","CONDITION","IHELP_PERSON","PATIENT","FPG_BASE","FPG_BLOOD","HEALTHENTIA_SUBJECTS","HEALTHENTIA_ANSWERS","HEALTHENTIA_EXERCISES","HEALTHENTIA_PHYSIOLOGICAL"]':
+            logging.error(f'The endpoint metainfo returned wrong body: {body}')
+&gt;       assert body == '["ENCOUNTER","MEDICATION","CONDITION","IHELP_PERSON","PATIENT","FPG_BASE","FPG_BLOOD","HEALTHENTIA_SUBJECTS","HEALTHENTIA_ANSWERS","HEALTHENTIA_EXERCISES","HEALTHENTIA_PHYSIOLOGICAL"]'
+E       assert '["HEALTHENTIA_PHYSIOLOGICAL","HEALTHENTIA_EXERCISES","HEALTHENTIA_ANSWERS","HEALTHENTIA_SUBJECTS","FPG_BLOOD","FPG_BASE","PATIENT","IHELP_PERSON","CONDITION","MEDICATION","ENCOUNTER"]' == '["ENCOUNTER","MEDICATION","CONDITION","IHELP_PERSON","PATIENT","FPG_BASE","FPG_BLOOD","HEALTHENTIA_SUBJECTS","HEALTHENTIA_ANSWERS","HEALTHENTIA_EXERCISES","HEALTHENTIA_PHYSIOLOGICAL"]'
+E         - ["ENCOUNTER","MEDICATION","CONDITION","IHELP_PERSON","PATIENT","FPG_BASE","FPG_BLOOD","HEALTHENTIA_SUBJECTS","HEALTHENTIA_ANSWERS","HEALTHENTIA_EXERCISES","HEALTHENTIA_PHYSIOLOGICAL"]
+E         + ["HEALTHENTIA_PHYSIOLOGICAL","HEALTHENTIA_EXERCISES","HEALTHENTIA_ANSWERS","HEALTHENTIA_SUBJECTS","FPG_BLOOD","FPG_BASE","PATIENT","IHELP_PERSON","CONDITION","MEDICATION","ENCOUNTER"]
+
+endpoints30005.py:25: AssertionError</failure></testcase><testcase classname="endpoints30005" name="test_process_returns_200" time="10.291"><failure message="AssertionError: errors occurred:&#10;  http://147.102.230.182:30005/ihelp/process?query=SELECT * FROM CONDITION returned status code: 500&#10;  http://147.102.230.182:30005/ihelp/process?query=SELECT * FROM MEDICATION returned status code: 500&#10;assert not ['http://147.102.230.182:30005/ihelp/process?query=SELECT * FROM CONDITION returned status code: 500', 'http://147.102.230.182:30005/ihelp/process?query=SELECT * FROM MEDICATION returned status code: 500']">def test_process_returns_200():
+        errors = []
+        for table in tables():
+            response = requests.get(url + "/process?query=SELECT * FROM " + table)
+            if response.status_code != 200:
+                errors.append(url + "/process?query=SELECT * FROM " + table + " returned status code: " + str(response.status_code))
+        if errors:
+            logging.error(f'For endpoint process the following errors for the status code occurred: {errors}')
+&gt;       assert not errors, "errors occurred:\n{}".format("\n".join(errors))
+E       AssertionError: errors occurred:
+E         http://147.102.230.182:30005/ihelp/process?query=SELECT * FROM CONDITION returned status code: 500
+E         http://147.102.230.182:30005/ihelp/process?query=SELECT * FROM MEDICATION returned status code: 500
+E       assert not ['http://147.102.230.182:30005/ihelp/process?query=SELECT * FROM CONDITION returned status code: 500', 'http://147.102.230.182:30005/ihelp/process?query=SELECT * FROM MEDICATION returned status code: 500']
+
+endpoints30005.py:36: AssertionError</failure></testcase><testcase classname="endpoints30005" name="test_process_returns_correct_body" time="10.225" /><testcase classname="endpoints30005" name="test_process_post_returns_200" time="0.248"><failure message="assert 500 == 200&#10; +  where 500 = &lt;Response [500]&gt;.status_code">def test_process_post_returns_200():
+        response = requests.post(url + "/process", headers=headers, json=process_post_request(1, "male", "25-03-2023", "22", "22"))
+        if response.status_code != 200:
+            logging.error(f'The endpoint POST process returned wrong status code: {response.status_code}')
+&gt;       assert response.status_code == 200
+E       assert 500 == 200
+E        +  where 500 = &lt;Response [500]&gt;.status_code
+
+endpoints30005.py:55: AssertionError</failure></testcase><testcase classname="endpoints30005" name="test_test_returns_200" time="0.151" /><testcase classname="endpoints30005" name="test_test_returns_correct_body" time="0.147" /><testcase classname="endpoints30005" name="test_test_name_returns_200" time="0.166" /><testcase classname="endpoints30005" name="test_test_name_returns_correct_body" time="0.159" /><testcase classname="endpoints30005" name="test_metainfo_primary_key_returns_200" time="56.997" /><testcase classname="endpoints30005" name="test_metainfo_primary_key_returns_correct_body" time="57.213" /><testcase classname="endpoints30005" name="test_metainfo_primary_key_returns_correct_schema" time="56.982" /><testcase classname="endpoints30005" name="test_metainfo_columns_returns_200" time="56.951" /><testcase classname="endpoints30005" name="test_metainfo_columns_returns_correct_body" time="56.956" /><testcase classname="endpoints30005" name="test_metainfo_columns_returns_correct_schema" time="56.945" /><testcase classname="endpoints30005" name="test_metainfo_indexes_returns_200" time="57.011" /><testcase classname="endpoints30005" name="test_metainfo_indexes_returns_correct_body" time="56.931" /><testcase classname="endpoints30005" name="test_metainfo_indexes_returns_correct_schema" time="56.990" /></testsuite></testsuites>

@@ -5,7 +5,7 @@ import logging
 
 url = "http://147.102.230.182:30005/ihelp"
 headers = {"Content-Type": "application/json; charset=utf-8"}
-logging.basicConfig(filename='endpoints30005.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='endpoints30005.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s', encoding='utf-8', level=logging.DEBUG)
 
 
 def test_metainfo_returns_200():
